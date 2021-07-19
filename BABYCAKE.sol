@@ -1,5 +1,19 @@
 // SPDX-License-Identifier: MIT
 
+//
+// $BabyCake proposes an innovative feature in its contract.
+//
+// DIVIDEND YIELD PAID IN CAKE! With the auto-claim feature,
+// simply hold$BabyCake and you'll receive CAKE automatically in your wallet.
+// 
+// Hold Baby Cake and get rewarded in Cake on every transaction!
+//
+//
+// 📱 Telegram: https://t.me/babycakeBSC
+// 🌎 Website: https://www.babycake.app/
+// 🌐 Twitter: https://twitter.com/BabyCakeBSC
+//
+
 pragma solidity ^0.6.2;
 
 import "./DividendPayingToken.sol";
@@ -10,8 +24,6 @@ import "./IUniswapV2Pair.sol";
 import "./IUniswapV2Factory.sol";
 import "./IUniswapV2Router.sol";
 
-/// @title Rhino Token
-/// @author FreezyEx (https://github.com/FreezyEx)
 
 contract BABYCAKE is ERC20, Ownable {
     using SafeMath for uint256;
@@ -27,7 +39,6 @@ contract BABYCAKE is ERC20, Ownable {
 
     address public immutable CAKE = address(0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82); //CAKE
 
-    uint256 public maxTxAmount = 200000000 * (10**18);  //0.2% of total supply
     uint256 public swapTokensAtAmount = 2000000 * (10**18);
     
     mapping(address => bool) public _isBlacklisted;
@@ -37,8 +48,7 @@ contract BABYCAKE is ERC20, Ownable {
     uint256 public marketingFee = 5;
     uint256 public totalFees = CAKERewardsFee.add(liquidityFee).add(marketingFee);
 
-    address  _marketingWalletAddress = 0x9A381AE2EB16f4865Bd9E36FCF576228691056d5;
-
+    address public _marketingWalletAddress = 0x24e21EF2C3C9C93B5791d77cF934bF92a91276ba;
 
 
     // use by default 300,000 gas to process auto-claiming dividends
@@ -184,9 +194,6 @@ contract BABYCAKE is ERC20, Ownable {
 
     }
 
-    function setMaxTxAmount(uint256 amount) external onlyOwner{
-        maxTxAmount = amount;
-    }
 
     function setAutomatedMarketMakerPair(address pair, bool value) public onlyOwner {
         require(pair != uniswapV2Pair, "BABYCAKE: The PancakeSwap pair cannot be removed from automatedMarketMakerPairs");
@@ -302,14 +309,6 @@ contract BABYCAKE is ERC20, Ownable {
         if(amount == 0) {
             super._transfer(from, to, 0);
             return;
-        }
-
-        if(
-        	!swapping &&
-            !_isExcludedFromFees[to] &&
-            !_isExcludedFromFees[from] //no max for those excluded from fees
-        ) {
-            require(amount <= maxTxAmount, "Transfer amount exceeds the maxTxAmount.");
         }
 
 		uint256 contractTokenBalance = balanceOf(address(this));
